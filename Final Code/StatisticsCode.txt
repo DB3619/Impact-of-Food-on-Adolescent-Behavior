@@ -1,0 +1,125 @@
+def get_stats(): String = 
+    {
+    val data = scObject()
+    val bully_s = data.filter{ line=>
+    val d = "[\t]+"
+    val parts = line.split(d)
+    (parts(250).toInt == 1)
+    }
+
+    var message = "total bully: "
+    message+= bully_s.count().toString() + "\n"
+    
+    val female_gender = bully_s.filter{ line=>
+    val d = "[\t]+"
+    val parts = line.split(d)
+    (parts(13).toInt == 2)
+    }
+    
+    message += "Female bully: "
+    message += female_gender.count().toString() + "\n"
+    
+    val female_less_fruits = female_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(71).toInt <= 3)
+    }.count()
+    
+    message += "\t" + "Female bully with less fruit intake : "
+    message += female_less_fruits.toString() + "\n"
+    
+    val female_less_veg = female_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(72).toInt <= 3)
+    }.count()
+    
+    message += "\t" + "Female bully with less veg intake : "
+    message += female_less_veg.toString() + "\n"
+    
+    val female_more_sweets = female_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(73).toInt > 3)
+    }.count()
+    
+    message += "\t" + "Female bully with more sweets intake : "
+    message += female_more_sweets.toString() + "\n"
+    
+    val female_more_drinks = female_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(74).toInt > 3)
+    }.count()
+    
+    message += "\t" + "Female bully with more soft drinks intake : "
+    message += female_more_drinks.toString() + "\n"
+    
+    val female_more_fastfood = female_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(85).toInt > 3)
+    }.count()
+    
+    message += "\t" + "Female bully with more fast food intake : "
+    message += female_more_fastfood.toString() + "\n"
+    
+    val male_gender = bully_s.filter{ line=>
+    val d = "[\t]+"
+    val parts = line.split(d)
+    (parts(13).toInt == 1)
+    }
+    
+    message += "Male bully: "
+    message += male_gender.count().toString() + "\n"
+    
+    val male_less_fruits = male_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(71).toInt <= 3)
+    }.count()
+    
+    message += "\t" + "male bully with less fruit intake : "
+    message += male_less_fruits.toString() + "\n"
+    
+    val male_less_veg = male_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(72).toInt <= 3)
+    }.count()
+    
+    message += "\t" + "male bully with less veg intake : "
+    message += male_less_veg.toString() + "\n"
+    
+    val male_more_sweets = male_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(73).toInt > 3)
+    }.count()
+    
+    message += "\t" + "male bully with more sweets intake : "
+    message += male_more_sweets.toString() + "\n"
+    
+    val male_more_drinks = male_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(74).toInt > 3)
+    }.count()
+    
+    message += "\t" + "male bully with more soft drinks intake : "
+    message += male_more_drinks.toString() + "\n"
+    
+    val male_more_fastfood = male_gender.filter{ line =>
+      val d = "[\t]+"
+      val parts = line.split(d)
+      (parts(85).toInt > 3)
+    }.count()
+    
+    message += "\t" + "male bully with more fast food intake : "
+    message += male_more_fastfood.toString() + "\n"
+    
+    
+    
+    message
+    
+  }

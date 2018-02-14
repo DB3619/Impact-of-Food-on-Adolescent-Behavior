@@ -1,0 +1,193 @@
+If used PCA code : 
+val new_data = sc.textFile("/user/db3619/spark/project/new_data.txt")
+If normal code : 
+val new_data = Pdata1
+
+def extractVector(line : String): String = {
+val d = "[\t]+"
+val str = line.split(d)
+var s = ""
+
+if( (str(69).toInt == 5 ) || (str(69).toInt == 6))
+{
+s = "3"
+}
+else if ((str(69).toInt == 4 ) || (str(69).toInt == 3))
+{
+s = "2"
+}
+else if ((str(69).toInt == 1 ) || (str(69).toInt == 2))
+{
+s = "1"
+}
+else
+{
+s = "0"
+}
+
+if ( (str(70).toInt == -9) || (str(70).toInt == -7))
+{
+s = s+" 0"
+}
+else
+{
+s = s+" "+str(70)
+}
+
+if( (str(71).toInt == 1 ) || (str(71).toInt == 2) || (str(71).toInt == 3))
+{
+s = s+" 1"
+}
+else if ((str(71).toInt == 4 ) || (str(71).toInt == 5))
+{
+s = s+" 2"
+}
+else if ((str(71).toInt == 6 ) || (str(71).toInt == 7))
+{
+s = s+" 3"
+}
+else
+{
+s = s+" 0"
+}
+
+if( (str(72).toInt == 1 ) || (str(72).toInt == 2) || (str(72).toInt == 3))
+{
+s = s+" 1"
+}
+else if ((str(72).toInt == 4 ) || (str(72).toInt == 5))
+{
+s = s+" 2"
+}
+else if ((str(72).toInt == 6 ) || (str(72).toInt == 7))
+{
+s = s+" 3"
+}
+else
+{
+s = s+" 0"
+}
+
+if( (str(73).toInt == 1 ) || (str(73).toInt == 2) || (str(73).toInt == 3))
+{
+s = s+" 1"
+}
+else if ((str(73).toInt == 4 ) || (str(73).toInt == 5))
+{
+s = s+" 2"
+}
+else if ((str(73).toInt == 6 ) || (str(73).toInt == 7))
+{
+s = s+" 3"
+}
+else
+{
+s = s+" 0"
+}
+
+if( (str(74).toInt == 1 ) || (str(74).toInt == 2) || (str(74).toInt == 3))
+{
+s = s+" 1"
+}
+else if ((str(74).toInt == 4 ) || (str(74).toInt == 5))
+{
+s = s+" 2"
+}
+else if ((str(74).toInt == 6 ) || (str(74).toInt == 7))
+{
+s = s+" 3"
+}
+else
+{
+s = s+" 0"
+}
+
+if(str(77).toInt == 1){
+s = s+" "+"1"
+}
+else if(str(78).toInt == 1){
+s = s+" "+"2"
+}
+else if(str(79).toInt == 1){
+s = s+" "+"3"
+}
+else if(str(80).toInt == 1){
+s = s+" "+"4"
+}
+else if(str(81).toInt == 1){
+s = s+" "+"5"
+}
+else if(str(82).toInt == 1){
+s = s+" "+"6"
+}
+else{
+s = s+" "+0.0
+}
+
+if( (str(85).toInt == 1 ) || (str(85).toInt == 2) || (str(85).toInt == 3))
+{
+s = s+" 1"
+}
+else if ((str(85).toInt == 4 ) || (str(85).toInt == 5))
+{
+s = s+" 2"
+}
+else if ((str(85).toInt == 6 ) || (str(85).toInt == 7))
+{
+s = s+" 3"
+}
+else
+{
+s = s+" 0"
+}
+
+if( (str(86).toInt != -9) && (str(86).toInt != -7))
+{
+s = s+" "+str(86)
+}
+else
+{
+s = s+" "+0.0
+}
+
+s
+}
+
+
+def extractLabel(line :String):String = {
+val str = line.split('\t')
+str(250)
+}
+
+
+import org.apache.spark.mllib.classification.{LogisticRegressionWithLBFGS, LogisticRegressionModel}
+import org.apache.spark.mllib.regression.LabeledPoint
+import org.apache.spark.mllib.linalg.{Vector, Vectors}
+
+
+val parsedData = new_data.map{line => 
+val label = extractLabel(line)
+val value = extractVector(line)
+val d = "[ ]+"
+val parts = value.split(d)
+LabeledPoint(label.toDouble, Vectors.dense(parts.map(x => x.toDouble)))
+}
+
+val splits = parsedData.randomSplit(Array(0.6,0.4), seed = 11L)
+ 
+val trainingData = splits(0)
+
+val testData = splits(1)
+val model = new LogisticRegressionWithLBFGS().setNumClasses(2).run(trainingData)
+val model = new LogisticRegressionWithLBFGS().setNumClasses(2).run(parsedData)
+
+val predictionAndLabels = testData.map { case LabeledPoint(label, features) =>
+val prediction = model.predict(features)
+(prediction, label)
+}
+
+val trainErr = predictionAndLabels.filter(r => r._1 != r._2).count.toDouble / testData.count
+
+
+
+
